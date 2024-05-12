@@ -1,16 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import ReserveForm from '../components/ReserveForm'
+import { TicketType } from '../enums/TicketType'
 
-class Reserve extends React.Component {
-  render() {
-    return (
-      <div>
-        <Navbar />
-        <ReserveForm />
-      </div>
-    )
-  }
+const Reserve: React.FC = () => {
+  const [ticketTypes, setTicketTypes] = useState<TicketType[] | []>([])
+
+  useEffect(() => {
+    fetch('http://localhost:8001/ticketTypes')
+      .then((response: Response) => response.json())
+      .then((data: TicketType[]) => {
+        console.log('Response from server:', data)
+        setTicketTypes(data)
+      })
+      .catch((error: Error) => {
+        console.error('Error:', error)
+      })
+  }, [])
+
+  return (
+    <div>
+      <Navbar />
+      <ReserveForm ticketTypes={ticketTypes} />
+    </div>
+  )
 }
 
 export default Reserve

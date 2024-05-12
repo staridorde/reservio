@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 
 import './ReserveForm.css'
+import { TicketType } from '../enums/TicketType'
 
 interface FormState {
   firstName: string
@@ -16,7 +17,11 @@ interface FormState {
   ticketType: string
 }
 
-const ReserveForm: React.FC = () => {
+interface ReserveProps {
+  ticketTypes: TicketType[]
+}
+
+const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
   const [formState, setFormState] = useState<FormState>({
     firstName: '',
     lastName: '',
@@ -28,7 +33,7 @@ const ReserveForm: React.FC = () => {
     country: '',
     email: '',
     confirmEmail: '',
-    ticketType: 'prvi'
+    ticketType: ''
   })
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -106,9 +111,9 @@ const ReserveForm: React.FC = () => {
           Confirm email:
         </label>
         <select name="ticketType" className='form-input' value={formState.ticketType} onChange={handleChange}>
-            <option value="prvi">prvi</option>
-            <option value="drugi">drugi</option>
-            <option value="treci">treci</option>
+            {ticketTypes.map((ticketType: TicketType) => 
+              <option key={ticketType._id} value={ticketType.name}>{ticketType.name}</option>  
+            )}
         </select>
       </div>
       <button type="submit" className='form-submit'>Submit</button>

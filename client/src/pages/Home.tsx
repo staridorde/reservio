@@ -1,13 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar';
 import ConcertContainer from '../containers/ConcertContainer';
-
-interface TicketType {
-  _id: string;
-  name: string;
-  capacity: string;
-  price: string;
-}
+import { TicketType } from '../enums/TicketType';
 
 interface AppState {
   ticketTypes: TicketType[];
