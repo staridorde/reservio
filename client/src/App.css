@@ -1,3 +1,7 @@
 .App {
+  width: 1080;
   text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 50;
 }
