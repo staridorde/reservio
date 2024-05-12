@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Navbar';
+import ConcertContainer from '../containers/ConcertContainer';
 
 interface TicketType {
   _id: string;
@@ -43,11 +44,12 @@ class Home extends React.Component<{}, AppState> {
         <Navbar />
         <button style={{height: 300, width: 500, fontSize: 50}} onClick={this.handleClick}>Send Request</button>
         {error && <div>Error: {error}</div>}
-        <ul style={{height: 1000, width: 1000, fontSize: 100}}>
+        <ul style={{width: 1000, fontSize: 100}}>
           {ticketTypes.map(ticketType => (
             <li key={ticketType._id}>{ticketType.name}</li>
           ))}
         </ul>
+        <ConcertContainer />
       </div>
     )
   }

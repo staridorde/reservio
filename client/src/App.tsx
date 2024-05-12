@@ -1,7 +1,8 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
-import About from './pages/About'
+import Reserve from './pages/Reserve'
+
 import './App.css'
 
 class App extends React.Component {
@@ -10,7 +11,7 @@ class App extends React.Component {
       <div className="App">
         <Routes>
           <Route path='/' element={<Home/>} />
-          <Route path='/reservation' element={<About/>} />
+          <Route path='/reservation' element={<Reserve/>} />
         </Routes>
       </div>
     )
