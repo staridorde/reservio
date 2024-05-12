@@ -2,8 +2,10 @@ import React, { ChangeEvent, FormEvent, useState } from 'react'
 
 import './ReserveForm.css'
 import { TicketType } from '../enums/TicketType'
+import { User } from '../enums/User'
+import { Reservation } from '../enums/Reservation'
 
-interface FormState {
+interface FormData {
   firstName: string
   lastName: string
   company?: string
@@ -14,7 +16,7 @@ interface FormState {
   country: string
   email: string
   confirmEmail: string
-  ticketType: string
+  ticketTypeId: string
 }
 
 interface ReserveProps {
@@ -22,18 +24,18 @@ interface ReserveProps {
 }
 
 const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
-  const [formState, setFormState] = useState<FormState>({
-    firstName: '',
-    lastName: '',
-    company: '',
-    address1: '',
-    address2: '',
-    postalCode: '',
-    city: '',
-    country: '',
-    email: '',
-    confirmEmail: '',
-    ticketType: ''
+  const [formState, setFormState] = useState<FormData>({
+    firstName: 'aas',
+    lastName: 'das',
+    company: 'dasd',
+    address1: 'dasads',
+    address2: 'daads',
+    postalCode: 'dsadasd',
+    city: 'dsasad',
+    country: 'dsadsa',
+    email: 'starcevic@untied',
+    confirmEmail: 'starcevic@untied',
+    ticketTypeId: ticketTypes[1]?._id || ''
   })
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -44,14 +46,45 @@ const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
     }))
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const extractUserData = function (formData: FormData):User {
+    return {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      company: formData.company,
+      address1: formData.address1,
+      address2: formData.address2,
+      postalCode: formData.postalCode,
+      city: formData.city,
+      country: formData.country,
+      email: formData.email,
+      confirmEmail: formData.confirmEmail,
+    }
+  }
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const user:User = extractUserData(formState)
+
+    const userResponse = await fetch('http://localhost:8001/user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+      .then(response => response.json())
+
+    const reservation:Reservation = {
+      userId: userResponse._id,
+      ticketTypeId: formState.ticketTypeId
+    }
+
     fetch('http://localhost:8001/reservation', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formState)
+      body: JSON.stringify(reservation)
     })
       .then(response => {
         console.log(response)
@@ -96,6 +129,12 @@ const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
       </div>
       <div className='form-item'>
         <label>
+          Postal code:
+        </label>
+        <input type="text" name="postalCode" className='form-input' value={formState.postalCode} onChange={handleChange} />
+      </div>
+      <div className='form-item'>
+        <label>
           City:
         </label>
         <input type="text" name="city" className='form-input' value={formState.city} onChange={handleChange} />
@@ -122,9 +161,9 @@ const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
         <label>
           Confirm email:
         </label>
-        <select name="ticketType" className='form-input' value={formState.ticketType} onChange={handleChange}>
+        <select name="ticketTypeId" className='form-input' value={formState.ticketTypeId} onChange={handleChange}>
             {ticketTypes.map((ticketType: TicketType) => 
-              <option key={ticketType._id} value={ticketType.name}>{ticketType.name}</option>  
+              <option key={ticketType._id} value={ticketType._id}>{ticketType.name}</option>
             )}
         </select>
       </div>

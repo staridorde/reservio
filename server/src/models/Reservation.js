@@ -3,17 +3,16 @@ const { mongoose } = require('mongoose')
 const Schema = mongoose.Schema
 
 const reservationSchema = new Schema({
-    firstName: String,
-    lastName: String,
-    company: String,
-    address1: String,
-    address2: String,
-    postalCode: String,
-    city: String,
-    country: String,
-    email: String,
-    confirmEmail: String,
-    ticketType: String
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
+        required: true
+    },
+    ticketTypeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ticket_types',
+        required: true
+    }
 })
 
 exports.Model = mongoose.model('reservations', reservationSchema)
