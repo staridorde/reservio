@@ -11,11 +11,11 @@ interface ConcertProps {
 const Concert: React.FC<ConcertProps> = ({concert, handleClick}) => {
     return (
         <div className="container" onClick={() => handleClick()}>
-            <text>Naziv koncerta: {concert.name}</text>
-            <text>Grad: {concert.city}</text>
-            <text>Lokacija: {concert.location}</text>
-            <text>Datumi odrzavanja: {concert.date}</text>
-            <text>Dodatne informacije: {concert.additionalInfo}</text>
+            <text className="text">Naziv koncerta: {concert.name}</text>
+            <text className="text">Grad: {concert.city}</text>
+            <text className="text">Lokacija: {concert.location}</text>
+            <text className="text">Datumi odrzavanja: {concert.date}</text>
+            <text className="text">Dodatne informacije: {concert.additionalInfo}</text>
         </div>
     )
 }

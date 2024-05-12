@@ -11,18 +11,35 @@ exports.initializeDatabase = async () => {
     const db = mongoose.connection
     db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
-    const concert = {
-        name: 'Eros Ramazzotti - Battito Infinito World Tour',
-        city: 'Belgrade',
-        location: 'Beogradska Arena',
-        date: '20.06.2024'
+    const concerts = [
+        {
+            name: 'Eros Ramazzotti - Battito Infinito World Tour',
+            city: 'Belgrade',
+            location: 'Beogradska Arena',
+            date: '20.06.2024'
+        },
+        {
+            name: 'Rammstein',
+            city: 'Belgrade',
+            location: 'Usce',
+            date: '21.05.2024'
+        },
+        {
+            name: 'Pink Floyd',
+            city: 'Belgrade',
+            location: 'Usce',
+            date: '27.07.2024'
+        }
+    ]
+
+    for (const concert of concerts) {
+        const concertExists = await Concert.Model.findOne({ name: concert.name })
+
+        if (concertExists) {
+            console.log('concert exists, move on')
+            continue
+        }
+
+        new Concert.Model(concert).save()
     }
-
-    const concertExists = await Concert.Model.findOne({ name: concert.name })
-
-    if (concertExists) {
-        return
-    }
-
-    new Concert.Model(concert).save()
 }

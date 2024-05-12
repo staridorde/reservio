@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+// not used anywhere, maybe delete
 class Navbar extends React.Component {
   render() {
     return (

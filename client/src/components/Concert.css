@@ -1,6 +1,19 @@
 .container {
     display: flex;
     flex-direction: column;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 40px;
+}
+
+.container:hover {
+    background-color: grey;
+    transition-duration: 500ms;
+    border: none;
+}
+
+.text {
+    padding: 15px;
 }
 
 .reserve-button {

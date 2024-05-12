@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
 import ReserveForm from '../components/ReserveForm'
 import { TicketType } from '../enums/TicketType'
 
@@ -20,7 +19,6 @@ const Reserve: React.FC = () => {
 
   return (
     <div>
-      <Navbar />
       <ReserveForm ticketTypes={ticketTypes} />
     </div>
   )

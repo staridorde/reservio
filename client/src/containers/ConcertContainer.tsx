@@ -18,15 +18,15 @@ const ConcertContainer = () => {
     }, [])
 
     return (
-        <div>
-        {concerts.map((concert: ConcertEnum) => {
-            return (
-                <Concert
-                    concert={concert}
-                    handleClick={() => handleReserve(concert._id)}
-                />
-            )
-        })}
+        <div style={{ paddingTop: 100 }}>
+            {concerts.map((concert: ConcertEnum) => {
+                return (
+                    <Concert
+                        concert={concert}
+                        handleClick={() => handleReserve(concert._id)}
+                    />
+                )
+            })}
         </div>
     )
 }
