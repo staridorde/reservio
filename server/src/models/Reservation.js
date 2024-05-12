@@ -8,6 +8,11 @@ const reservationSchema = new Schema({
         ref: 'Users',
         required: true
     },
+    concertId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'concerts',
+        required: true
+    },
     ticketTypeId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ticket_types',

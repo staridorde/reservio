@@ -22,6 +22,9 @@ app.use('/reservation', reservationRoutes)
 const userRoutes = require('./routes/userRoutes')
 app.use('/user', userRoutes)
 
+const concertRoutes = require('./routes/concertRoutes')
+app.use('/concert', concertRoutes)
+
 // init server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)

@@ -1,4 +1,5 @@
 export interface Reservation {
-    userId: string;
+    userId: string
+    concertId: string
     ticketTypeId: string
 }

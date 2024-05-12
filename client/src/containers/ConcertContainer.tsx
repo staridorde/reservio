@@ -1,22 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import './ConcertContainer.css'
+import { Concert as ConcertEnum } from '../enums/Concert';
+import Concert from '../components/Concert';
 
 const ConcertContainer = () => {
     const navigate = useNavigate()
+    const [concerts, setConcerts] = useState<ConcertEnum[] | []>([])
 
-    const handleReserve = () => {
-        navigate('/reservation')
+    const handleReserve = (concertId:String) => {
+        navigate('/reservation', { state: { concertId } })
     }
 
+    useEffect(() => {
+        fetch('http://localhost:8001/concert')
+            .then(response => response.json())
+            .then(concerts => setConcerts(concerts))
+    }, [])
+
     return (
-        <div className="container">
-            <text>Naziv koncerta: Erros Ramazoti</text>
-            <text>Grad: Beograd</text>
-            <text>Lokacija: Beogradska Arena</text>
-            <text>Datumi odrzavanja: 20,21,22 Jul 2024</text>
-            <text>Dodatne informacije: dodjite da vas eros ramazotira</text>
-            <button className='reserve-button' onClick={handleReserve}>Rezervisi</button>
+        <div>
+        {concerts.map((concert: ConcertEnum) => {
+            return (
+                <Concert
+                    concert={concert}
+                    handleClick={() => handleReserve(concert._id)}
+                />
+            )
+        })}
         </div>
     )
 }

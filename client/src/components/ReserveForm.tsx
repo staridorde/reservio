@@ -4,6 +4,7 @@ import './ReserveForm.css'
 import { TicketType } from '../enums/TicketType'
 import { User } from '../enums/User'
 import { Reservation } from '../enums/Reservation'
+import { useLocation } from 'react-router-dom'
 
 interface FormData {
   firstName: string
@@ -24,6 +25,12 @@ interface ReserveProps {
 }
 
 const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
+  const {
+    state: {
+      concertId
+    }
+  } = useLocation()
+
   const [formState, setFormState] = useState<FormData>({
     firstName: 'aas',
     lastName: 'das',
@@ -76,7 +83,8 @@ const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
 
     const reservation:Reservation = {
       userId: userResponse._id,
-      ticketTypeId: formState.ticketTypeId
+      ticketTypeId: formState.ticketTypeId,
+      concertId
     }
 
     fetch('http://localhost:8001/reservation', {
