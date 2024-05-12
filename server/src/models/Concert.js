@@ -20,6 +20,10 @@ const concertSchema = new Schema({
         type: String,
         required: true
     },
+    ticketTypes: {
+        type: Array,
+        required: true
+    },
     additionalInfo: {
         type: String,
         required: false
