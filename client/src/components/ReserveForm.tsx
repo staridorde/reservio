@@ -46,7 +46,19 @@ const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    // Do something with the form data, e.g., send it to the server
+    fetch('http://localhost:8001/reservation', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formState)
+    })
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.error(error)
+      })
     console.log('Form submitted:', formState)
   }
 

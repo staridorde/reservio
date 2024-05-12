@@ -16,6 +16,9 @@ app.use(express.json())
 const ticketTypesRoutes = require('./routes/ticketTypesRoutes')
 app.use('/ticketTypes', ticketTypesRoutes)
 
+const reservationRoutes = require('./routes/reservationRoutes')
+app.use('/reservation', reservationRoutes)
+
 // init server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
