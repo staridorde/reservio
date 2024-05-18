@@ -18,10 +18,8 @@ const reservationSchema = new Schema({
         ref: 'ticket_types',
         required: true
     },
-    numberOfTickets: {
-        type: Number,
-        required: true
-    }
+    numberOfTickets: { type: Number, required: true },
+    token: { type: String, required: true }
 })
 
 exports.Model = mongoose.model('reservations', reservationSchema)

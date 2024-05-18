@@ -39,7 +39,8 @@ exports.initializeDatabase = async () => {
             name: 'Eros Ramazzotti - Battito Infinito World Tour',
             city: 'Belgrade',
             location: 'Beogradska Arena',
-            date: '20.06.2024',
+            date: new Date('2024-07-20T00:00:00'),
+            earlyBirdDate: new Date('2024-06-20T00:00:00'),
             ticketTypes: [
                 {
                     ticketTypeId: ticketTypesMap['VIP']._id,
@@ -61,7 +62,8 @@ exports.initializeDatabase = async () => {
             name: 'Rammstein',
             city: 'Belgrade',
             location: 'Usce',
-            date: '21.05.2024',
+            date: new Date('2024-07-25T00:00:00'),
+            earlyBirdDate: new Date('2024-06-25T00:00:00'),
             ticketTypes: [
                 {
                     ticketTypeId: ticketTypesMap['VIP']._id,
@@ -83,7 +85,8 @@ exports.initializeDatabase = async () => {
             name: 'Pink Floyd',
             city: 'Belgrade',
             location: 'Usce',
-            date: '27.07.2024',
+            date: new Date('2024-08-20T00:00:00'),
+            earlyBirdDate: new Date('2024-07-20T00:00:00'),
             ticketTypes: [
                 {
                     ticketTypeId: ticketTypesMap['VIP']._id,

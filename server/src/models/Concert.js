@@ -25,11 +25,15 @@ const concertSchema = new Schema({
         required: true
     },
     date: {
-        type: String,
+        type: Date,
         required: true
     },
     ticketTypes: {
         type: [availableTicketTypeSchema],
+        required: true
+    },
+    earlyBirdDate: {
+        type: Date,
         required: true
     },
     additionalInfo: {
