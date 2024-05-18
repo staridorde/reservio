@@ -15,7 +15,7 @@ const Reserve: React.FC = () => {
     }
   } = useLocation()
 
-  useEffect(() => {
+  const fetchTicketTypes = () => {
     fetch('http://localhost:8001/ticketTypes')
       .then((response: Response) => response.json())
       .then((data: TicketType[]) => {
@@ -25,7 +25,9 @@ const Reserve: React.FC = () => {
       .catch((error: Error) => {
         console.error('Error:', error)
       })
+  }
 
+  const fetchReservations = () => {
     fetch(`http://localhost:8001/reservation?concertId=${concert._id}`, {
       headers: {
         'Content-Type': 'application/json'
@@ -33,11 +35,16 @@ const Reserve: React.FC = () => {
     })
       .then(response => response.json())
       .then(reservations => setReservations(reservations))
+  }
+
+  useEffect(() => {
+    fetchTicketTypes()
+    fetchReservations()
   }, [])
 
   return (
     <div className='page'>
-      <ReserveForm ticketTypes={ticketTypes} />
+      <ReserveForm ticketTypes={ticketTypes} refetchReservations={fetchReservations} />
       <ReservationList reservations={reservations} />
     </div>
   )

@@ -22,15 +22,18 @@ interface FormData {
 }
 
 interface ReserveProps {
-  ticketTypes: TicketType[]
+  ticketTypes: TicketType[],
+  refetchReservations: Function
 }
 
-const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
+const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes, refetchReservations }) => {
   const {
     state: {
       concert
     }
   } = useLocation()
+
+  const [reservationToken, setReservationToken] = useState<string>('')
 
   const [formState, setFormState] = useState<FormData>({
     firstName: 'aas',
@@ -97,13 +100,14 @@ const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
       },
       body: JSON.stringify(reservation)
     })
+      .then(response => response.json())
       .then(response => {
-        window.location.reload()
+        setReservationToken(response.token)
+        refetchReservations()
       })
       .catch(error => {
         console.error(error)
       })
-    console.log('Form submitted:', formState)
   }
 
   return (
@@ -184,6 +188,21 @@ const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
         </label>
         <input type="number" min={0} name="numberOfTickets" className='form-input' value={formState.numberOfTickets} onChange={handleChange} />
       </div>
+      <div className='form-item'>
+        <label>
+          Number of tickets:
+        </label>
+        <input type="number" min={0} name="numberOfTickets" className='form-input' value={formState.numberOfTickets} onChange={handleChange} />
+      </div>
+      {reservationToken ? (
+        <div className='form-item'>
+          <text>
+            Your reservation token:
+          </text>
+          {/* <text>{reservationToken}</text> */}
+          <textarea name="reservationToken" style={{ fontSize: '40px', height: '700px' }} value={reservationToken} readOnly />
+        </div>
+      ) : null}
       <button type="submit" className='form-submit'>Submit</button>
     </form>
   )

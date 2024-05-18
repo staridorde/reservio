@@ -4,5 +4,6 @@ export interface Concert {
     city: string
     location: string
     date: string
+    earlyBirdDate: string
     additionalInfo?: string
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatDate } from '../utils/date'
 
 interface UserDetails {
   firstName: string
@@ -8,6 +9,7 @@ interface UserDetails {
 interface ConcertDetails {
   name: string
   date: string
+  earlyBirdDate: string
 }
 
 interface TicketTypeDetails {
@@ -39,7 +41,8 @@ const ReservationList: React.FC<ReservationListProps> = ({ reservations }) => {
           <p>Number of Tickets: {reservation.numberOfTickets}</p>
           <p>Name: {reservation.userDetails.firstName} {reservation.userDetails.lastName}</p>
           <p>Concert name: {reservation.concertDetails.name}</p>
-          <p>Date: {reservation.concertDetails.date}</p>
+          <p>Date: {formatDate(new Date(reservation.concertDetails.date))}</p>
+          <p>Early bird date: {formatDate(new Date(reservation.concertDetails.earlyBirdDate))}</p>
           <p>Ticket Type: {reservation.ticketTypeDetails.name}</p>
         </div>
       ))}
