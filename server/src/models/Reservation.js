@@ -17,6 +17,10 @@ const reservationSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ticket_types',
         required: true
+    },
+    numberOfTickets: {
+        type: Number,
+        required: true
     }
 })
 

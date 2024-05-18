@@ -2,6 +2,14 @@ const { mongoose } = require('mongoose')
 
 const Schema = mongoose.Schema
 
+const availableTicketTypeSchema = new mongoose.Schema({
+    ticketTypeId: mongoose.Schema.Types.ObjectId,
+    capacity: Number,
+    remainingNumberOfTickets: Number,
+    ticketsSold: Number,
+    price: Number,
+})
+
 const concertSchema = new Schema({
     name: {
         type: String,
@@ -21,7 +29,7 @@ const concertSchema = new Schema({
         required: true
     },
     ticketTypes: {
-        type: Array,
+        type: [availableTicketTypeSchema],
         required: true
     },
     additionalInfo: {
