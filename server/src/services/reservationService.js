@@ -68,6 +68,26 @@ exports.getConcertReservations = async reservationData => {
   }
 }
 
+exports.getConcertReservationsWithToken = async token => {
+  try {
+    const decoded = jwt.verify(token, secretKey)
+    const reservation = await Reservation.Model.findById(new mongoose.Types.ObjectId(decoded.reservationId))
+    return reservation
+  } catch (error) {
+    throw error
+  }
+}
+
+exports.updateReservation = async ({reservationId, updates}) => {
+  try {
+    // probably should change concert ticket sold values
+    const reservation = await Reservation.Model.findByIdAndUpdate(reservationId, updates, { new: true })
+    return reservation
+  } catch (error) {
+    throw error
+  }
+}
+
 exports.createReservation = async data => {
   try {
     const concert = await Concert.Model.findById(data.concertId)
@@ -78,19 +98,13 @@ exports.createReservation = async data => {
 
     const expirationTime = Math.floor(new Date(concert.date).getTime() / 1000)
     const expiresIn = expirationTime - Math.floor(Date.now() / 1000)
-    
+
+    const reservation = await Reservation.Model.create(data)
     const token = jwt.sign(
-      { concertId: data.concertId, userId: data.userId },
+      { concertId: data.concertId, userId: data.userId, reservationId: reservation._id },
       secretKey,
       { expiresIn: expiresIn }
     )
-
-    const reservationData = {
-      ...data,
-      token
-    }
-
-    const reservation = await Reservation.Model.create([reservationData])
 
     const concertId = new mongoose.Types.ObjectId(data.concertId)
     const ticketTypeId = new mongoose.Types.ObjectId(data.ticketTypeId)
@@ -102,12 +116,7 @@ exports.createReservation = async data => {
       }}
     )
 
-    // const concert = await Concert.Model.findOneAndUpdate(
-    //   { _id: concertId, "ticketTypes.ticketTypeId": ticketTypeId },
-    //   { $inc: { "ticketTypes.$.quantity": -parseInt(data.quantity) } }
-    // )
-
-    return reservation[0]
+    return { token }
   } catch (error) {
     throw error
   }
