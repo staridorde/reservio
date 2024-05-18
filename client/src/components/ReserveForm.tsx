@@ -17,6 +17,7 @@ interface FormData {
   country: string
   email: string
   confirmEmail: string
+  numberOfTickets: number
   ticketTypeId: string
 }
 
@@ -27,7 +28,7 @@ interface ReserveProps {
 const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
   const {
     state: {
-      concertId
+      concert
     }
   } = useLocation()
 
@@ -42,7 +43,8 @@ const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
     country: 'dsadsa',
     email: 'starcevic@untied',
     confirmEmail: 'starcevic@untied',
-    ticketTypeId: ticketTypes[1]?._id || ''
+    numberOfTickets: 1,
+    ticketTypeId: concert.ticketTypes[0].ticketTypeId || ''
   })
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -64,7 +66,7 @@ const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
       city: formData.city,
       country: formData.country,
       email: formData.email,
-      confirmEmail: formData.confirmEmail,
+      confirmEmail: formData.confirmEmail
     }
   }
 
@@ -84,7 +86,8 @@ const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
     const reservation:Reservation = {
       userId: userResponse._id,
       ticketTypeId: formState.ticketTypeId,
-      concertId
+      concertId: concert._id,
+      numberOfTickets: formState.numberOfTickets
     }
 
     fetch('http://localhost:8001/reservation', {
@@ -95,7 +98,7 @@ const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
       body: JSON.stringify(reservation)
     })
       .then(response => {
-        console.log(response)
+        window.location.reload()
       })
       .catch(error => {
         console.error(error)
@@ -167,13 +170,19 @@ const ReserveForm: React.FC<ReserveProps> = ({ ticketTypes }) => {
       </div>
       <div className='form-item'>
         <label>
-          Confirm email:
+          Ticket type:
         </label>
         <select name="ticketTypeId" className='form-input' value={formState.ticketTypeId} onChange={handleChange}>
             {ticketTypes.map((ticketType: TicketType) => 
               <option key={ticketType._id} value={ticketType._id}>{ticketType.name}</option>
             )}
         </select>
+      </div>
+      <div className='form-item'>
+        <label>
+          Number of tickets:
+        </label>
+        <input type="number" min={0} name="numberOfTickets" className='form-input' value={formState.numberOfTickets} onChange={handleChange} />
       </div>
       <button type="submit" className='form-submit'>Submit</button>
     </form>

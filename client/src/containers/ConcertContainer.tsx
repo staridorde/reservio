@@ -7,8 +7,8 @@ const ConcertContainer = () => {
     const navigate = useNavigate()
     const [concerts, setConcerts] = useState<ConcertEnum[] | []>([])
 
-    const handleReserve = (concertId:String) => {
-        navigate('/reservation', { state: { concertId } })
+    const handleReserve = (concert:ConcertEnum) => {
+        navigate('/reservation', { state: { concert } })
     }
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const ConcertContainer = () => {
                 return (
                     <Concert
                         concert={concert}
-                        handleClick={() => handleReserve(concert._id)}
+                        handleClick={() => handleReserve(concert)}
                     />
                 )
             })}
